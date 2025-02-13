@@ -1,0 +1,123 @@
+datasource db {
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+  directUrl    = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearchPostgres"]
+}
+
+model Course {
+  id          String   @id @default(uuid())
+  userId      String
+  title       String   @db.Text
+  imageUrl    String?
+  description String?
+  price       Float?
+  isPublished Boolean? @default(false)
+
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  attachments Attachments[]
+  chapters    Chapter[]
+  purchases   Purchase[]
+
+  createdAt DateTime? @default(now())
+
+  updatedAt DateTime?
+
+  @@index([categoryId])
+
+}
+
+model Category {
+  id      String   @id @default(uuid())
+  name    String
+  courses Course[]
+}
+
+model Attachments {
+  id   String @id @default(uuid())
+  name String @db.Text
+  url  String @db.Text
+
+  courseId String
+
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+}
+
+model Chapter {
+  id          String  @id @default(uuid())
+  title       String
+  description String? @db.Text
+  videoUrl    String? @db.Text
+  position    Int
+  isPublished Boolean? @default(false)
+  isFree      Boolean? @default(false)
+
+  muxData      MuxData?
+  courseId     String
+  course       Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  userProgress UserProgress[]
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+}
+
+model MuxData {
+  id         String  @default(uuid())
+  assesId    String
+  playBackId String?
+  chapterId  String  @unique
+
+  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+}
+
+model UserProgress {
+  id     String @id @default(uuid())
+  userId String
+
+  chapterId   String
+  chapter     Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, chapterId])
+  @@index([chapterId])
+}
+
+model Purchase {
+  id       String @id @default(uuid())
+  userId   String
+  courseId String?
+  course   Course? @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+  @@unique([userId, courseId])
+}
+
+model StripeCustomer {
+  id               String @default(uuid())
+  userId           String @unique
+  StripeCustomerId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

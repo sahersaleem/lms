@@ -1,7 +1,16 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs'
+import Header from "@/components/Header";
+import Sidebar from "@/components/Sidebar";
+import { ConfettiProvider } from "@/providers/Confetti-provider";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -24,12 +33,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <ClerkProvider>
+    
     <html lang="en">
+    <ConfettiProvider/>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white w-full flex flex-row overflow-x-hidden` }
       >
-        {children}
+     
+        
+          {children}
       </body>
     </html>
+    </ClerkProvider>
   );
 }
