@@ -9,10 +9,7 @@
     "lint": "next lint",
      "postinstall": "prisma generate"
   }
-    "compilerOptions": {
-      "baseUrl": "./src"
-    
-  },
+   ,
   "dependencies": {
     "@clerk/nextjs": "^6.9.9",
     "@hookform/resolvers": "^3.10.0",
