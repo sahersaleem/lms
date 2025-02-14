@@ -24,7 +24,6 @@ export async function getCourses({
   try {
     const courses = await db.course.findMany({
       where: {
-        userId,
         title: {
           contains: title,
         },
