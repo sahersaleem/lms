@@ -12,14 +12,14 @@ import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
 import Input from "./Input-box";
 
-import { isTeacher } from "@/lib/teacher";
+// import { isTeacher } from "@/lib/teacher";
 
 const Header = () => {
   const path = usePathname();
   const isSearchpage = path.includes("/browse");
   const { userId } = useAuth();
 
-  const isTeacherId = isTeacher(userId!);
+  // const isTeacherId = isTeacher(userId!);
 
   return (
     <div className="bg-white w-full px-10 pt-8  py-4 shadow-sm borber-b border-black/40">
@@ -40,9 +40,9 @@ const Header = () => {
             </Link>
           ) : (
             <Link href={"/teacher/courses"}>
-              {isTeacher(userId!) ? (
+              { (
                 <Button variant={"secondary"}>Teacher mode</Button>
-              ) : null}
+              )}
             </Link>
           )}
 
