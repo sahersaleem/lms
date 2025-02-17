@@ -11,6 +11,7 @@ import {
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import { ConfettiProvider } from "@/providers/Confetti-provider";
+import NextTopLoader from 'nextjs-toploader';
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -38,10 +39,11 @@ export default function RootLayout({
     <html lang="en">
     <ConfettiProvider/>
       <body
+     
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white w-full flex flex-row overflow-x-hidden` }
       >
      
-        
+     <NextTopLoader/>
           {children}
       </body>
     </html>

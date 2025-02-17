@@ -27,7 +27,7 @@ const CourseSidebar = async ({ course, progressCount }: CourseSidebarProps) => {
   });
 
   return (
-    <div className="h-4 border-r-2 p-8 w-[40%]  min-h-[100vh]">
+    <div className="h-4 border-r-2 p-8  min-h-[100vh]">
       <h1 className="text-xl font-fold ">{course.title}</h1>
       
         <div className="mt-5">
